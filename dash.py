@@ -56,9 +56,9 @@ df_filtered = df[df["Day"] == day]
 
 st.write(df_filtered)
 
-#col1, = st.columns(1)
-#col2, = st.columns(1) 
-#col3, = st.columns(1)
+col1, = st.columns(1)
+col2, = st.columns(1) 
+col3, = st.columns(1)
 
 fig_temperatura_dia = px.line(df_filtered, x="Horario", y="Temperatura", title="Gráfico de Temperatura por Dia")
 st.plotly_chart(fig_temperatura_dia, use_container_width=True)
@@ -68,5 +68,3 @@ st.plotly_chart(fig_umidade_dia, use_container_width=True)
 
 fig_pressao_dia = px.line(df_filtered, x="Horario", y="Pressao Atmosferica", title="Gráfico de Pressão Atmosférioca por Dia")
 st.plotly_chart(fig_pressao_dia, use_container_width=True)
-
-#print(df)
