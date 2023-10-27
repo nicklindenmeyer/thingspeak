@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import streamlit as st
 import datetime 
-import plotly.express as px
+#import plotly.express as px
 
 data_hora_atual = datetime.datetime.now()
 mes_atual = data_hora_atual.month
