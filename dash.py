@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import streamlit as st
 import datetime 
-#import plotly.express as px
+import plotly.express as px
 
 data_hora_atual = datetime.datetime.now()
 mes_atual = data_hora_atual.month
@@ -54,18 +54,17 @@ day = st.sidebar.selectbox("Selecione o dia", df["Day"].unique())
 
 df_filtered = df[df["Day"] == day]
 
-st.line_chart(df_filtered, x="Horario", y="Temperatura")
-#col1, = st.columns(1)
-#col2, = st.columns(1) 
-#col3, = st.columns(1)
+col1, = st.columns(1)
+col2, = st.columns(1) 
+col3, = st.columns(1)
 
-#fig_temperatura_dia = px.line(df_filtered, x="Horario", y="Temperatura", title="Gráfico de Temperatura por Dia")
-#col1.plotly_chart(fig_temperatura_dia, use_container_width=True)
+fig_temperatura_dia = px.line(df_filtered, x="Horario", y="Temperatura", title="Gráfico de Temperatura por Dia")
+col1.plotly_chart(fig_temperatura_dia, use_container_width=True)
 
-#fig_umidade_dia = px.line(df_filtered, x="Horario", y="Umidade", title="Gráfico de Umidade do Ar por Dia")
-#col2.plotly_chart(fig_umidade_dia, use_container_width=True)
+fig_umidade_dia = px.line(df_filtered, x="Horario", y="Umidade", title="Gráfico de Umidade do Ar por Dia")
+col2.plotly_chart(fig_umidade_dia, use_container_width=True)
 
-#fig_pressao_dia = px.line(df_filtered, x="Horario", y="Pressao Atmosferica", title="Gráfico de Pressão Atmosférioca por Dia")
-#col3.plotly_chart(fig_pressao_dia, use_container_width=True)
+fig_pressao_dia = px.line(df_filtered, x="Horario", y="Pressao Atmosferica", title="Gráfico de Pressão Atmosférioca por Dia")
+col3.plotly_chart(fig_pressao_dia, use_container_width=True)
 
 #print(df)
