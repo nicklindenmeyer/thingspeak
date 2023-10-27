@@ -47,24 +47,26 @@ df = df.drop("entry_id", axis=1)
 
 st.title("Mês Atual")
 
-st.write(df)
+
 
 df["Day"] = df["Data"].apply(lambda x: str(x.year)+"/"+str(x.month)+"/"+str(x.day))
 day = st.sidebar.selectbox("Selecione o dia", df["Day"].unique())
 
 df_filtered = df[df["Day"] == day]
 
-col1, = st.columns(1)
-col2, = st.columns(1) 
-col3, = st.columns(1)
+st.write(df_filtered)
+
+#col1, = st.columns(1)
+#col2, = st.columns(1) 
+#col3, = st.columns(1)
 
 fig_temperatura_dia = px.line(df_filtered, x="Horario", y="Temperatura", title="Gráfico de Temperatura por Dia")
-col1.plotly_chart(fig_temperatura_dia, use_container_width=True)
+st.plotly_chart(fig_temperatura_dia, use_container_width=True)
 
 fig_umidade_dia = px.line(df_filtered, x="Horario", y="Umidade", title="Gráfico de Umidade do Ar por Dia")
-col2.plotly_chart(fig_umidade_dia, use_container_width=True)
+st.plotly_chart(fig_umidade_dia, use_container_width=True)
 
 fig_pressao_dia = px.line(df_filtered, x="Horario", y="Pressao Atmosferica", title="Gráfico de Pressão Atmosférioca por Dia")
-col3.plotly_chart(fig_pressao_dia, use_container_width=True)
+st.plotly_chart(fig_pressao_dia, use_container_width=True)
 
 #print(df)
