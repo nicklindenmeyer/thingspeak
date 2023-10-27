@@ -54,6 +54,7 @@ day = st.sidebar.selectbox("Selecione o dia", df["Day"].unique())
 
 df_filtered = df[df["Day"] == day]
 
+st.line_chart(df_filtered, x="Horario", y="Temperatura")
 #col1, = st.columns(1)
 #col2, = st.columns(1) 
 #col3, = st.columns(1)
