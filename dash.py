@@ -3,9 +3,17 @@ import pandas as pd
 import streamlit as st
 import datetime 
 import plotly.express as px
+import numpy as np
 
 data_hora_atual = datetime.datetime.now()
 mes_atual = data_hora_atual.month
+
+st.set_page_config(
+    page_title="Estação Meteorológica",
+    page_icon="🌙",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 def get_data_from_thingspeak(channel_id, read_key):
     endpoint = f"https://api.thingspeak.com/channels/{channel_id}/feeds.json"
@@ -22,6 +30,11 @@ def get_data_from_thingspeak(channel_id, read_key):
 data = get_data_from_thingspeak('2302302', 'A5W7L8EBQ74NJ3YH')
 
 df = pd.DataFrame(data['feeds'])
+
+last_entry = df["created_at"].iloc[-1]
+last_temperatura = df["field1"].iloc[-1]
+last_umidade = df["field2"].iloc[-1]
+last_pressao = df["field3"].iloc[-1]
 
 divisao0 = df["created_at"].str.split("T")
 
@@ -45,26 +58,32 @@ df["Pressao Atmosferica"] = df["field3"]
 
 df = df.drop("entry_id", axis=1)
 
-st.title("Mês Atual")
-
-
-
 df["Day"] = df["Data"].apply(lambda x: str(x.year)+"/"+str(x.month)+"/"+str(x.day))
 day = st.sidebar.selectbox("Selecione o dia", df["Day"].unique())
 
 df_filtered = df[df["Day"] == day]
 
+st.title("Última Leitura")
+st.write(last_entry )
+
+st.write("Temperatura: ", last_temperatura, "ºC")
+st.write("Umidade: ", last_umidade, "%")
+st.write("Pressão Atmosférica: ", last_pressao, "hPa")
+
+st.title("Mês Atual")
 st.write(df_filtered)
 
 col1, = st.columns(1)
 col2, = st.columns(1) 
 col3, = st.columns(1)
 
+
 fig_temperatura_dia = px.line(df_filtered, x="Horario", y="Temperatura", title="Gráfico de Temperatura por Dia")
-st.plotly_chart(fig_temperatura_dia, use_container_width=True)
+col1.plotly_chart(fig_temperatura_dia, use_container_width=True)
 
 fig_umidade_dia = px.line(df_filtered, x="Horario", y="Umidade", title="Gráfico de Umidade do Ar por Dia")
-st.plotly_chart(fig_umidade_dia, use_container_width=True)
+col2.plotly_chart(fig_umidade_dia, use_container_width=True)
 
 fig_pressao_dia = px.line(df_filtered, x="Horario", y="Pressao Atmosferica", title="Gráfico de Pressão Atmosférioca por Dia")
-st.plotly_chart(fig_pressao_dia, use_container_width=True)
+col3.plotly_chart(fig_pressao_dia, use_container_width=True)
+
